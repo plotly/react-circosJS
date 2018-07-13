@@ -9,10 +9,12 @@
   "private": false,
   "scripts": {
     "build": "babel lib -d build",
-    "build:watch": "babel lib -w -d build",
+    "build:watch": "babel lib/ -w -d build",
     "lint": "eslint lib/**; exit 0",
     "lint:watch": "esw -w lib/**",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "test": "jest lib",
+    "test:watch": "jest --watch lib"
   },
   "peerDependencies": {
     "react": "^16.4.1",
@@ -31,6 +33,7 @@
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.10.0",
     "eslint-watch": "^4.0.1",
+    "jest": "^23.4.1",
     "prop-types": "^15.6.2",
     "react": "^16.4.1"
   }

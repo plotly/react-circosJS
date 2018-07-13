@@ -18,5 +18,5 @@ module.exports = {
     ecmaVersion: 7,
     sourceType: 'module',
   },
-  plugins: ['babel', 'import', 'jsx-a11y'],
+  plugins: ['babel', 'import', 'jsx-a11y', 'jest'],
 };

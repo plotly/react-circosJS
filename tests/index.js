@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom'
 const requireTests = require.context('../lib', true, /\.screenshot\.js$/)
 const tests = requireTests.keys().map(requireTests)
 
-console.log(tests)
 const Tests = () => (
   <div>
     {tests.map((TestCase, index) => {

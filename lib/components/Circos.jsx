@@ -1,16 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CircosJS from 'circos';
+import { TRACK_TYPES } from '../tracks';
 
 class Circos extends React.Component {
   componentDidMount() {
-    const { size, data, config } = this.props;
+    const {
+      size, layout, config, tracks,
+    } = this.props;
     const circos = new CircosJS({
       container: this.ref,
       width: size,
       height: size,
     });
-    circos.layout(data, config || {});
+    circos.layout(layout, config || {});
+    tracks.forEach((track, index) => {
+      const {
+        id,
+        data,
+        config: trackConfig,
+        type,
+      } = track;
+      circos[type.toLowerCase()](id || `track-${index}`, data, trackConfig);
+    });
     circos.render();
   }
 
@@ -22,9 +34,10 @@ class Circos extends React.Component {
 Circos.defaultProps = {
   config: {},
   size: 800,
+  tracks: [],
 };
 Circos.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
+  layout: PropTypes.arrayOf(PropTypes.shape({
     len: PropTypes.number.isRequired,
     color: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
@@ -32,6 +45,12 @@ Circos.propTypes = {
   })).isRequired,
   config: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   size: PropTypes.number,
+  tracks: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    data: PropTypes.array.isRequired,
+    config: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+    type: PropTypes.oneOf(TRACK_TYPES),
+  })),
 };
 
 module.exports = Circos;

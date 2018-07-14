@@ -17,7 +17,7 @@ const takeScreenshots = async () => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto(`http://localhost:${port}`);
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  await new Promise(resolve => setTimeout(resolve, 5000));
   const testCases = await page.$$('.testCase');
   const titles = await page.evaluate(() => [
     ...document.querySelectorAll('.testCase'),

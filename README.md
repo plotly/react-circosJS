@@ -1,6 +1,12 @@
 # react-circos
 
-A React wrapper for CircosJS
+A React wrapper for [CircosJS](https://github.com/nicgirault/circosJS)
+
+<p align="center">
+  <img src="https://github.com/nicgirault/circosJS/raw/faa7f64c6075ee543f43979a1801884b286150f0/doc/temperatures.png" width="60%" alt="temperatures">
+  <br/>
+  <i>Average temperatures in Paris from 2007 (inner) to 2014 (outer). The circular layout highlights seasonal effect.</i>
+</p>
 
 ## Usage
 

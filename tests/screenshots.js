@@ -1,41 +1,40 @@
-var finalhandler = require('finalhandler')
-const puppeteer = require('puppeteer')
-var http = require('http')
-var serveStatic = require('serve-static')
+const finalhandler = require('finalhandler');
+const puppeteer = require('puppeteer');
+const http = require('http');
+const serveStatic = require('serve-static');
 const path = require('path');
 
-var serve = serveStatic(path.resolve(__dirname), { index: ['index.html'] })
+const serve = serveStatic(path.resolve(__dirname), { index: ['index.html'] });
 
-var server = http.createServer(function onRequest(req, res) {
-  serve(req, res, finalhandler(req, res))
-})
+const server = http.createServer((req, res) => {
+  serve(req, res, finalhandler(req, res));
+});
 
-server.listen(3000)
+const port = 3000;
+server.listen(port);
 
 const takeScreenshots = async () => {
-  const browser = await puppeteer.launch()
-  const page = await browser.newPage()
-  await page.goto('http://localhost:3000')
-  await new Promise(resolve => setTimeout(resolve, 2000))
-  const testCases = await page.$$('.testCase')
-  const titles = await page.evaluate(() =>
-    [...document.querySelectorAll('.testCase')].map(element =>
-      element.getAttribute('title')
-    )
-  )
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  await page.goto(`http://localhost:${port}`);
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  const testCases = await page.$$('.testCase');
+  const titles = await page.evaluate(() => [
+    ...document.querySelectorAll('.testCase'),
+  ].map(element => element.getAttribute('title')));
   await Promise.all(
-    testCases.map((testCase, index) =>
-      testCase.screenshot({ path: path.resolve(__dirname, `screenshots/${titles[index]}.png`) })
-    )
-  )
-  await browser.close()
-}
+    testCases.map((testCase, index) => testCase.screenshot({
+      path: path.resolve(__dirname, `screenshots/${titles[index]}.png`),
+    })),
+  );
+  await browser.close();
+};
 
 takeScreenshots()
   .then(() => {
-    process.exit(0)
+    process.exit(0);
   })
-  .catch(error => {
-    console.log(error)
-    process.exit(1)
-  })
+  .catch((error) => {
+    console.error(error); // eslint-disable-line no-console
+    process.exit(1);
+  });

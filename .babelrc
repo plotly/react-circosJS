@@ -1,6 +1,3 @@
 {
-  "presets": ["es2015", "react"],
-  "ignore": [
-    "**/*.test.js"
-  ]
+  "presets": ["es2015", "react"]
 }

@@ -6,15 +6,17 @@ import { TRACK_TYPES } from '../tracks';
 class Circos extends React.Component {
   constructor(props) {
     super(props);
-    this.circos = new CircosJS({
-      container: this.ref,
-      width: props.size,
-      height: props.size,
-    });
+    this.circos = null;
     this.renderCircos = this.renderCircos.bind(this);
   }
 
   componentDidMount() {
+    const { size } = this.props;
+    this.circos = new CircosJS({
+      container: this.ref,
+      width: size,
+      height: size,
+    });
     this.renderCircos();
   }
 
@@ -68,4 +70,4 @@ Circos.propTypes = {
   })),
 };
 
-module.exports = Circos;
+export default Circos;

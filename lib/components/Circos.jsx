@@ -4,16 +4,33 @@ import CircosJS from 'circos';
 import { TRACK_TYPES } from '../tracks';
 
 class Circos extends React.Component {
+  constructor(props) {
+    super(props);
+    this.circos = null;
+    this.renderCircos = this.renderCircos.bind(this);
+  }
+
   componentDidMount() {
-    const {
-      size, layout, config, tracks,
-    } = this.props;
-    const circos = new CircosJS({
+    const { size } = this.props;
+    this.circos = new CircosJS({
       container: this.ref,
       width: size,
       height: size,
     });
-    circos.layout(layout, config || {});
+    this.renderCircos();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
+      this.renderCircos();
+    }
+  }
+
+  renderCircos() {
+    const {
+      layout, config, tracks,
+    } = this.props;
+    this.circos.layout(layout, config || {});
     tracks.forEach((track, index) => {
       const {
         id,
@@ -21,9 +38,9 @@ class Circos extends React.Component {
         config: trackConfig,
         type,
       } = track;
-      circos[type.toLowerCase()](id || `track-${index}`, data, trackConfig);
+      this.circos[type.toLowerCase()](id || `track-${index}`, data, trackConfig);
     });
-    circos.render();
+    this.circos.render();
   }
 
   render() {
@@ -53,4 +70,4 @@ Circos.propTypes = {
   })),
 };
 
-module.exports = Circos;
+export default Circos;
